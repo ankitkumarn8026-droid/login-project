@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
               successMsg.innerText = "Login Successful!";
 
               setTimeout(() => {
-                window.location.href = "Index2.html";
+                window.location.href = "https://www.exoticindiaart.com/gcg/us";
               }, 1000);
 
             } else {
