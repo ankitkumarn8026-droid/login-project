@@ -15,32 +15,45 @@ const db = getDatabase(app);
 function signup() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  const firstName = document.getElementById("First_Name").value;
+  const lastName = document.getElementById("Last_Name").value; 
 
-  if(email.trim() === "" || password.trim() === ""){
+  if( firstName.trim() === "" ||
+  lastName.trim() === "" ||
+  email.trim() === "" ||
+  password.trim() === "")
+{
     alert("Fill all fields");
     return;
-  }
+ }
 
   get(ref(db, 'users/' + email.trim().replace(/\./g, '_')))
-  .then((snapshot) => {
-    if(snapshot.exists()){
-      alert("User already exists");
-    } else {
-      return set(ref(db, 'users/' + email.trim().replace(/\./g, '_')), {
-        email: email.trim(),
-        password: password.trim()
-      });
-    }
-  })
-  .then(() => {
-    alert("Account Created!");
-    window.location.href = "index.html";
-  })
-  .catch((error) => {
-    console.log(error);
-    alert("Something went wrong");
+.then((snapshot) => {
+  if (snapshot.exists()) {
+    alert("User already exists");
+    return null; // ❗ important
+  }
+
+  return set(ref(db, 'users/' + email.trim().replace(/\./g, '_')), {
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    email: email.trim(),
+    password: password.trim()
   });
+})
+.then((result) => {
+  if (result === null) return; // ❗ stop here
+
+  alert("Account Created!");
+  window.location.href = "index.html";
+})
+.catch((error) => {
+  console.log(error);
+  alert("Something went wrong");
+});
+
 }
+
 
 // ✅ DOM load hone ke baad sab bind karo
 document.addEventListener("DOMContentLoaded", function() {
